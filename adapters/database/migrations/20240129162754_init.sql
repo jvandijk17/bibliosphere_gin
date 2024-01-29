@@ -1,0 +1,129 @@
+-- +goose Up
+CREATE TABLE book (
+    id INT AUTO_INCREMENT NOT NULL,
+    library_id INT DEFAULT NULL,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    publisher VARCHAR(255) NOT NULL,
+    isbn VARCHAR(13) NOT NULL,
+    publication_year DATE NOT NULL,
+    page_count INT NOT NULL,
+    INDEX IDX_CBE5A331FE2541D7 (library_id),
+    PRIMARY KEY(id)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+
+CREATE TABLE book_category (
+    id INT AUTO_INCREMENT NOT NULL,
+    book_id INT DEFAULT NULL,
+    category_id INT DEFAULT NULL,
+    INDEX IDX_1FB30F9816A2B381 (book_id),
+    INDEX IDX_1FB30F9812469DE2 (category_id),
+    PRIMARY KEY(id)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+
+CREATE TABLE category (
+    id INT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+
+CREATE TABLE library (
+    id INT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    province VARCHAR(255) NOT NULL,
+    postal_code VARCHAR(10) NOT NULL,
+    PRIMARY KEY(id)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+
+CREATE TABLE loan (
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT DEFAULT NULL,
+    book_id INT DEFAULT NULL,
+    loan_date DATE NOT NULL,
+    return_date DATE DEFAULT NULL,
+    INDEX IDX_C5D30D03A76ED395 (user_id),
+    INDEX IDX_C5D30D0316A2B381 (book_id),
+    PRIMARY KEY(id)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+
+CREATE TABLE user (
+    id INT AUTO_INCREMENT NOT NULL,
+    library_id INT NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    province VARCHAR(255) NOT NULL,
+    postal_code VARCHAR(10) NOT NULL,
+    registration_date DATE NOT NULL,
+    birth_date DATE DEFAULT NULL,
+    reputation INT NOT NULL,
+    blocked TINYINT(1) NOT NULL,
+    INDEX IDX_8D93D649FE2541D7 (library_id),
+    PRIMARY KEY(id)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+
+ALTER TABLE
+    book
+ADD
+    CONSTRAINT FK_CBE5A331FE2541D7 FOREIGN KEY (library_id) REFERENCES library (id);
+
+ALTER TABLE
+    book_category
+ADD
+    CONSTRAINT FK_1FB30F9816A2B381 FOREIGN KEY (book_id) REFERENCES book (id);
+
+ALTER TABLE
+    book_category
+ADD
+    CONSTRAINT FK_1FB30F9812469DE2 FOREIGN KEY (category_id) REFERENCES category (id);
+
+ALTER TABLE
+    loan
+ADD
+    CONSTRAINT FK_C5D30D03A76ED395 FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE
+    loan
+ADD
+    CONSTRAINT FK_C5D30D0316A2B381 FOREIGN KEY (book_id) REFERENCES book (id);
+
+ALTER TABLE
+    user
+ADD
+    CONSTRAINT FK_8D93D649FE2541D7 FOREIGN KEY (library_id) REFERENCES library (id);
+
+-- +goose Down
+ALTER TABLE
+    book DROP FOREIGN KEY FK_CBE5A331FE2541D7;
+
+ALTER TABLE
+    book_category DROP FOREIGN KEY FK_1FB30F9816A2B381;
+
+ALTER TABLE
+    book_category DROP FOREIGN KEY FK_1FB30F9812469DE2;
+
+ALTER TABLE
+    loan DROP FOREIGN KEY FK_C5D30D03A76ED395;
+
+ALTER TABLE
+    loan DROP FOREIGN KEY FK_C5D30D0316A2B381;
+
+ALTER TABLE
+    user DROP FOREIGN KEY FK_8D93D649FE2541D7;
+
+DROP TABLE book;
+
+DROP TABLE book_category;
+
+DROP TABLE category;
+
+DROP TABLE library;
+
+DROP TABLE loan;
+
+DROP TABLE user;
