@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 ALTER TABLE
-    user
+    users
 ADD
     roles LONGTEXT NOT NULL COMMENT '(DC2Type:json)';
 
@@ -9,6 +9,6 @@ ADD
 -- +goose Down
 -- +goose StatementBegin
 ALTER TABLE
-    user DROP roles;
+    users DROP roles;
 
 -- +goose StatementEnd

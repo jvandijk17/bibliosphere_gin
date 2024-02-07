@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 ALTER TABLE
-    loan
+    loans
 ADD
     estimated_return_date DATE DEFAULT NULL;
 
@@ -9,6 +9,6 @@ ADD
 -- +goose Down
 -- +goose StatementBegin
 ALTER TABLE
-    loan DROP COLUMN estimated_return_date;
+    loans DROP COLUMN estimated_return_date;
 
 -- +goose StatementEnd

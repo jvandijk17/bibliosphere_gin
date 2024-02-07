@@ -1,6 +1,6 @@
 -- +goose Up
 ALTER TABLE
-    loan
+    loans
 ADD
     COLUMN book_if_not_returned INT AS (
         CASE
@@ -10,13 +10,13 @@ ADD
     ) VIRTUAL;
 
 ALTER TABLE
-    loan
+    loans
 ADD
     UNIQUE INDEX idx_unique_loan_book (book_if_not_returned);
 
 -- +goose Down
 ALTER TABLE
-    loan DROP INDEX idx_unique_loan_book;
+    loans DROP INDEX idx_unique_loan_book;
 
 ALTER TABLE
-    loan DROP COLUMN book_if_not_returned;
+    loans DROP COLUMN book_if_not_returned;

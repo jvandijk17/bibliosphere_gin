@@ -1,0 +1,10 @@
+{
+    "Realm": "bibliosphere",
+    "IdentityKey": "id",
+    "PublicAccess": "PUBLIC_ACCESS",
+    "IsAuthenticatedFully": "IS_AUTHENTICATED_FULLY",
+    "TokenLookup": "header: Authorization, query: token, cookie: jwt",
+    "TokenHeadName": "Bearer",
+    "DefaultPort": ":8080",
+    "DatabaseDSN": "syzygy:Dp_5*wTWPlBq2j[K@tcp(127.0.0.1:3306)/bibliosphere?charset=utf8mb4&parseTime=True&loc=Local"
+}

@@ -1,27 +1,27 @@
 -- +goose Up
 -- Attempt to drop the foreign key. Ignore the error if the foreign key doesn't exist.
 ALTER TABLE
-    book DROP FOREIGN KEY FK_CBE5A331FE2541D7;
+    books DROP FOREIGN KEY FK_CBE5A331FE2541D7;
 
 -- Make the library_id column NOT NULL
 ALTER TABLE
-    book CHANGE library_id library_id INT NOT NULL;
+    books CHANGE library_id library_id INT NOT NULL;
 
 -- Re-add the foreign key constraint
 ALTER TABLE
-    book
+    books
 ADD
-    CONSTRAINT FK_CBE5A331FE2541D7 FOREIGN KEY (library_id) REFERENCES library(id);
+    CONSTRAINT FK_CBE5A331FE2541D7 FOREIGN KEY (library_id) REFERENCES libraries(id);
 
 -- +goose Down
 -- Similar logic for the down migration
 ALTER TABLE
-    book DROP FOREIGN KEY FK_CBE5A331FE2541D7;
+    books DROP FOREIGN KEY FK_CBE5A331FE2541D7;
 
 ALTER TABLE
-    book CHANGE library_id library_id INT DEFAULT NULL;
+    books CHANGE library_id library_id INT DEFAULT NULL;
 
 ALTER TABLE
-    book
+    books
 ADD
-    CONSTRAINT FK_CBE5A331FE2541D7 FOREIGN KEY (library_id) REFERENCES library(id);
+    CONSTRAINT FK_CBE5A331FE2541D7 FOREIGN KEY (library_id) REFERENCES libraries(id);
