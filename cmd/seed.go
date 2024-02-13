@@ -16,6 +16,7 @@ var seedCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalf("Failed to connect to database: %v", err)
 		}
+		seed.SeedLibraries(db)
 		seed.SeedUsers(db)
 	},
 }

@@ -19,11 +19,10 @@ type User struct {
 	PostalCode       string    `gorm:"size:10;not null"`
 	RegistrationDate time.Time `gorm:"not null"`
 	BirthDate        *time.Time
-	Reputation       int    `gorm:"not null"`
-	Blocked          bool   `gorm:"not null"`
-	Roles            string `gorm:"type:longtext;not null"`
-	// Assuming LibraryID is a foreign key to a Library table
-	// Library Library `gorm:"foreignKey:LibraryID"`
+	Reputation       int     `gorm:"not null"`
+	Blocked          bool    `gorm:"not null"`
+	Roles            string  `gorm:"type:longtext;not null"`
+	Library          Library `gorm:"foreignKey:LibraryID"`
 	// Assuming a relationship with the Loan table
 	// Loans []Loan `gorm:"foreignKey:UserID"`
 }
