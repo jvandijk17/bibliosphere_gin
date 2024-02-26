@@ -8,7 +8,7 @@ import (
 
 type User struct {
 	gorm.Model
-	LibraryID        int       `gorm:"not null"`
+	LibraryID        uint      `gorm:"not null"`
 	FirstName        string    `gorm:"size:255;not null"`
 	LastName         string    `gorm:"size:255;not null"`
 	Email            string    `gorm:"size:255;not null;unique"`

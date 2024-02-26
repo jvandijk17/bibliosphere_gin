@@ -8,14 +8,16 @@ import (
 )
 
 type Config struct {
-	Realm                string `json:"realm"`
-	IdentityKey          string `json:"identityKey"`
-	PublicAccess         string `json:"publicAccess"`
-	IsAuthenticatedFully string `json:"isAuthenticatedFully"`
-	TokenLookup          string `json:"tokenLookup"`
-	TokenHeadName        string `json:"tokenHeadName"`
-	DefaultPort          string `json:"defaultPort"`
-	DatabaseDSN          string `json:"databaseDSN"`
+	Realm                string `json:"Realm"`
+	IdentityKey          string `json:"IdentityKey"`
+	PublicAccess         string `json:"PublicAccess"`
+	IsAuthenticatedFully string `json:"IsAuthenticatedFully"`
+	TokenLookup          string `json:"TokenLookup"`
+	TokenHeadName        string `json:"TokenHeadName"`
+	DefaultPort          string `json:"DefaultPort"`
+	DatabaseDSN          string `json:"DatabaseDSN"`
+	JwtTestMail          string `json:"JwtTestMail"`
+	JwtTestPass          string `json:"JwtTestPass"`
 }
 
 var AppConfig Config

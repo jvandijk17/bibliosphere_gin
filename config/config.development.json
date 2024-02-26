@@ -6,5 +6,7 @@
     "TokenLookup": "header: Authorization, query: token, cookie: jwt",
     "TokenHeadName": "Bearer",
     "DefaultPort": ":8080",
-    "DatabaseDSN": "syzygy:Dp_5*wTWPlBq2j[K@tcp(127.0.0.1:3306)/bibliosphere?charset=utf8mb4&parseTime=True&loc=Local"
+    "DatabaseDSN": "syzygy:Dp_5*wTWPlBq2j[K@tcp(127.0.0.1:3306)/bibliosphere?charset=utf8mb4&parseTime=True&loc=Local",
+    "JwtTestMail": "clint_upto6@yahoo.com",
+    "JwtTestPass": "4wHMQx^.'bW86=D"
 }
