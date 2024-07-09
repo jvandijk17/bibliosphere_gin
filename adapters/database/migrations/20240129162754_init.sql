@@ -19,6 +19,9 @@ CREATE TABLE book_categories (
     id INT AUTO_INCREMENT NOT NULL,
     book_id INT DEFAULT NULL,
     category_id INT DEFAULT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL,
+    deleted_at DATETIME DEFAULT NULL,
     INDEX IDX_1FB30F9816A2B381 (book_id),
     INDEX IDX_1FB30F9812469DE2 (category_id),
     PRIMARY KEY(id)

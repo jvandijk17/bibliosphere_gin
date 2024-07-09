@@ -18,6 +18,9 @@ var seedCmd = &cobra.Command{
 		}
 		seed.SeedLibraries(db)
 		seed.SeedUsers(db)
+		seed.SeedBooks(db)
+		seed.SeedCategories(db)
+		seed.SeedBookCategories(db)
 	},
 }
 
