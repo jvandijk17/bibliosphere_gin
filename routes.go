@@ -10,11 +10,20 @@ import (
 )
 
 func setupRouter(db *gorm.DB) *gin.Engine {
+
 	userRepo := repositories.NewGormUserRepository(db)
 	userService := service.NewUserService(userRepo)
 	userController := http.NewUserController(userService)
 
+	bookRepo := repositories.NewGormBookRepository(db)
+	bookService := service.NewBookService(bookRepo)
+	bookController := http.NewBookController(bookService)
+
 	router := gin.Default()
+	bookController.RegisterRoutes(router)
 	userController.RegisterRoutes(router)
+
+	// Register other controllers similarly
+
 	return router
 }
