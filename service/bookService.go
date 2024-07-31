@@ -3,8 +3,8 @@ package service
 import (
 	"bibliosphere_gin/adapters/repositories"
 	"bibliosphere_gin/domain"
+	"bibliosphere_gin/utils"
 	"bibliosphere_gin/validators"
-	"time"
 )
 
 type BookService interface {
@@ -50,7 +50,7 @@ func (s *bookService) CreateOrUpdateBook(id *uint, data map[string]interface{}) 
 		book = *existingBook
 	}
 
-	err = s.assignDataToBook(&book, data)
+	err = utils.AssignDataToStruct(&book, data)
 	if err != nil {
 		return nil, err
 	}
@@ -69,34 +69,4 @@ func (s *bookService) CreateOrUpdateBook(id *uint, data map[string]interface{}) 
 
 func (s *bookService) DeleteBook(id uint) error {
 	return s.repo.Delete(id)
-}
-
-func (s *bookService) assignDataToBook(book *domain.Book, data map[string]interface{}) error {
-	if title, ok := data["title"].(string); ok {
-		book.Title = title
-	}
-	if author, ok := data["author"].(string); ok {
-		book.Author = author
-	}
-	if publisher, ok := data["publisher"].(string); ok {
-		book.Publisher = publisher
-	}
-	if isbn, ok := data["isbn"].(string); ok {
-		book.ISBN = isbn
-	}
-	if publicationYear, ok := data["publication_year"].(string); ok {
-		parsedDate, err := time.Parse("2006-01-02", publicationYear)
-		if err != nil {
-			return err
-		}
-		book.PublicationYear = parsedDate.Format("2006-01-02")
-	}
-	if pageCount, ok := data["page_count"].(uint); ok {
-		book.PageCount = pageCount
-	}
-	if libraryID, ok := data["libraryId"].(uint); ok {
-		book.LibraryID = libraryID
-	}
-
-	return nil
 }

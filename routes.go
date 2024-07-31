@@ -13,7 +13,8 @@ import (
 func setupRouter(db *gorm.DB) *gin.Engine {
 
 	userRepo := repositories.NewGormUserRepository(db)
-	userService := service.NewUserService(userRepo)
+	userValidator := validators.NewUserValidator()
+	userService := service.NewUserService(userRepo, userValidator)
 	userController := http.NewUserController(userService)
 
 	bookRepo := repositories.NewGormBookRepository(db)

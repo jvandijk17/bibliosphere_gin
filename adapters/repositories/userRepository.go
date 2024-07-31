@@ -9,6 +9,7 @@ import (
 type UserRepository interface {
 	FindByID(id uint) (*domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
+	FindAll(users *[]domain.User) error
 	Save(user *domain.User) error
 	Delete(id uint) error
 }
@@ -37,6 +38,14 @@ func (repo *GormUserRepository) FindByEmail(email string) (*domain.User, error) 
 		return nil, result.Error
 	}
 	return &user, nil
+}
+
+func (repo *GormUserRepository) FindAll(users *[]domain.User) error {
+	result := repo.db.Find(users)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
 func (repo *GormUserRepository) Save(user *domain.User) error {
