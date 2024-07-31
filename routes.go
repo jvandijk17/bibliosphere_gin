@@ -4,6 +4,7 @@ import (
 	"bibliosphere_gin/adapters/repositories"
 	"bibliosphere_gin/port/http"
 	"bibliosphere_gin/service"
+	"bibliosphere_gin/validators"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -16,14 +17,13 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 	userController := http.NewUserController(userService)
 
 	bookRepo := repositories.NewGormBookRepository(db)
-	bookService := service.NewBookService(bookRepo)
+	bookValidator := validators.NewBookValidator()
+	bookService := service.NewBookService(bookRepo, bookValidator)
 	bookController := http.NewBookController(bookService)
 
 	router := gin.Default()
 	bookController.RegisterRoutes(router)
 	userController.RegisterRoutes(router)
-
-	// Register other controllers similarly
 
 	return router
 }

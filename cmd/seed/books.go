@@ -44,6 +44,6 @@ func createRandomBook(libraries []domain.Library) domain.Book {
 		Publisher:       gofakeit.Company(),
 		ISBN:            gofakeit.Generate("#############"),
 		PublicationYear: gofakeit.Date().Format("2006-01-02"),
-		PageCount:       gofakeit.Number(100, 1000),
+		PageCount:       uint(gofakeit.Number(100, 1000)),
 	}
 }
