@@ -26,24 +26,24 @@ func NewBookService(repo repositories.BookRepository, validator validators.BookV
 	}
 }
 
-func (s *bookService) GetAllBooks() ([]domain.Book, error) {
+func (bookService *bookService) GetAllBooks() ([]domain.Book, error) {
 	var books []domain.Book
-	err := s.repo.FindAll(&books)
+	err := bookService.repo.FindAll(&books)
 	if err != nil {
 		return nil, err
 	}
 	return books, nil
 }
 
-func (s *bookService) GetBookByID(id uint) (*domain.Book, error) {
-	return s.repo.FindByID(id)
+func (bookService *bookService) GetBookByID(id uint) (*domain.Book, error) {
+	return bookService.repo.FindByID(id)
 }
 
-func (s *bookService) CreateOrUpdateBook(id *uint, data map[string]interface{}) (*domain.Book, error) {
+func (bookService *bookService) CreateOrUpdateBook(id *uint, data map[string]interface{}) (*domain.Book, error) {
 	var book domain.Book
 	var err error
 	if id != nil {
-		existingBook, err := s.repo.FindByID(*id)
+		existingBook, err := bookService.repo.FindByID(*id)
 		if err != nil {
 			return nil, err
 		}
@@ -55,18 +55,18 @@ func (s *bookService) CreateOrUpdateBook(id *uint, data map[string]interface{}) 
 		return nil, err
 	}
 
-	err = s.validator.Validate(&book)
+	err = bookService.validator.Validate(&book)
 	if err != nil {
 		return nil, err
 	}
 
-	err = s.repo.Save(&book)
+	err = bookService.repo.Save(&book)
 	if err != nil {
 		return nil, err
 	}
 	return &book, nil
 }
 
-func (s *bookService) DeleteBook(id uint) error {
-	return s.repo.Delete(id)
+func (bookService *bookService) DeleteBook(id uint) error {
+	return bookService.repo.Delete(id)
 }

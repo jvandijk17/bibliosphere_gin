@@ -50,9 +50,9 @@ func JWTMiddleware() (*jwt.GinJWTMiddleware, error) {
 				Model: gorm.Model{ID: userID},
 			}
 		},
-		Authenticator: func(c *gin.Context) (interface{}, error) {
+		Authenticator: func(context *gin.Context) (interface{}, error) {
 			var loginVals User
-			if err := c.ShouldBind(&loginVals); err != nil {
+			if err := context.ShouldBind(&loginVals); err != nil {
 				return "", jwt.ErrMissingLoginValues
 			}
 
@@ -65,12 +65,12 @@ func JWTMiddleware() (*jwt.GinJWTMiddleware, error) {
 			}
 			return token, nil
 		},
-		Authorizator: func(data interface{}, c *gin.Context) bool {
-			claims := jwt.ExtractClaims(c)
+		Authorizator: func(data interface{}, context *gin.Context) bool {
+			claims := jwt.ExtractClaims(context)
 			userRole := claims["roles"]
 
-			requestPath := c.Request.URL.Path
-			requestMethod := c.Request.Method
+			requestPath := context.Request.URL.Path
+			requestMethod := context.Request.Method
 
 			var accessControlRules = []struct {
 				Path    string
@@ -96,8 +96,8 @@ func JWTMiddleware() (*jwt.GinJWTMiddleware, error) {
 			}
 			return false
 		},
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{"code": code, "message": message})
+		Unauthorized: func(context *gin.Context, code int, message string) {
+			context.JSON(code, gin.H{"code": code, "message": message})
 		},
 		TokenLookup:   config.AppConfig.IdentityKey,
 		TokenHeadName: config.AppConfig.TokenHeadName,

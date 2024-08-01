@@ -27,27 +27,27 @@ func (ctrl *BookController) RegisterRoutes(router *gin.Engine) {
 	}
 }
 
-func (ctrl *BookController) GetAllBooks(c *gin.Context) {
+func (ctrl *BookController) GetAllBooks(context *gin.Context) {
 	books, err := ctrl.service.GetAllBooks()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, books)
+	context.JSON(http.StatusOK, books)
 }
 
-func (ctrl *BookController) GetBookByID(c *gin.Context) {
-	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+func (ctrl *BookController) GetBookByID(context *gin.Context) {
+	id, _ := strconv.ParseUint(context.Param("id"), 10, 32)
 	book, err := ctrl.service.GetBookByID(uint(id))
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
 		return
 	}
-	c.JSON(http.StatusOK, book)
+	context.JSON(http.StatusOK, book)
 }
 
-func (ctrl *BookController) CreateOrUpdateBook(c *gin.Context) {
-	idParam := c.Param("id")
+func (ctrl *BookController) CreateOrUpdateBook(context *gin.Context) {
+	idParam := context.Param("id")
 	var id *uint
 	if idParam != "" {
 		idVal, _ := strconv.ParseUint(idParam, 10, 32)
@@ -56,29 +56,29 @@ func (ctrl *BookController) CreateOrUpdateBook(c *gin.Context) {
 	}
 
 	var data map[string]interface{}
-	if err := c.BindJSON(&data); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+	if err := context.BindJSON(&data); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
 	book, err := ctrl.service.CreateOrUpdateBook(id, data)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	status := http.StatusCreated
 	if id != nil {
 		status = http.StatusOK
 	}
-	c.JSON(status, book)
+	context.JSON(status, book)
 }
 
-func (ctrl *BookController) DeleteBook(c *gin.Context) {
-	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+func (ctrl *BookController) DeleteBook(context *gin.Context) {
+	id, _ := strconv.ParseUint(context.Param("id"), 10, 32)
 	err := ctrl.service.DeleteBook(uint(id))
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
 		return
 	}
-	c.JSON(http.StatusNoContent, nil)
+	context.JSON(http.StatusNoContent, nil)
 }

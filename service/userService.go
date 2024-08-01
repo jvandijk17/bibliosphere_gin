@@ -10,6 +10,7 @@ import (
 type UserService interface {
 	GetAllUsers() ([]domain.User, error)
 	GetUserByID(id uint) (*domain.User, error)
+	GetUserByEmail(email string) (*domain.User, error)
 	CreateOrUpdateUser(id *uint, data map[string]interface{}) (*domain.User, error)
 	DeleteUser(id uint) error
 }
@@ -26,28 +27,28 @@ func NewUserService(repo repositories.UserRepository, validator validators.UserV
 	}
 }
 
-func (s *userService) GetAllUsers() ([]domain.User, error) {
+func (userService *userService) GetAllUsers() ([]domain.User, error) {
 	var users []domain.User
-	err := s.repo.FindAll(&users)
+	err := userService.repo.FindAll(&users)
 	if err != nil {
 		return nil, err
 	}
 	return users, nil
 }
 
-func (s *userService) GetUserByID(id uint) (*domain.User, error) {
-	return s.repo.FindByID(id)
+func (userService *userService) GetUserByID(id uint) (*domain.User, error) {
+	return userService.repo.FindByID(id)
 }
 
-func (s *userService) GetUserByEmail(email string) (*domain.User, error) {
-	return s.repo.FindByEmail(email)
+func (userService *userService) GetUserByEmail(email string) (*domain.User, error) {
+	return userService.repo.FindByEmail(email)
 }
 
-func (s *userService) CreateOrUpdateUser(id *uint, data map[string]interface{}) (*domain.User, error) {
+func (userService *userService) CreateOrUpdateUser(id *uint, data map[string]interface{}) (*domain.User, error) {
 	var user domain.User
 	var err error
 	if id != nil {
-		existingUser, err := s.repo.FindByID(*id)
+		existingUser, err := userService.repo.FindByID(*id)
 		if err != nil {
 			return nil, err
 		}
@@ -59,18 +60,18 @@ func (s *userService) CreateOrUpdateUser(id *uint, data map[string]interface{}) 
 		return nil, err
 	}
 
-	err = s.validator.Validate(&user)
+	err = userService.validator.Validate(&user)
 	if err != nil {
 		return nil, err
 	}
 
-	err = s.repo.Save(&user)
+	err = userService.repo.Save(&user)
 	if err != nil {
 		return nil, err
 	}
 	return &user, nil
 }
 
-func (s *userService) DeleteUser(id uint) error {
-	return s.repo.Delete(id)
+func (userService *userService) DeleteUser(id uint) error {
+	return userService.repo.Delete(id)
 }

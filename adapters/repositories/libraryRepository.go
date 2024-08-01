@@ -8,6 +8,7 @@ import (
 
 type LibraryRepository interface {
 	FindByID(id uint) (*domain.Library, error)
+	FindAll(libraries *[]domain.Library) error
 	Save(library *domain.Library) error
 	Delete(id uint) error
 }
@@ -27,6 +28,14 @@ func (repo *GormLibraryRepository) FindByID(id uint) (*domain.Library, error) {
 		return nil, result.Error
 	}
 	return &library, nil
+}
+
+func (repo *GormLibraryRepository) FindAll(libraries *[]domain.Library) error {
+	result := repo.db.Find(libraries)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
 func (repo *GormLibraryRepository) Save(library *domain.Library) error {
