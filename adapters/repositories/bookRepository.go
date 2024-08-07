@@ -9,7 +9,7 @@ import (
 type BookRepository interface {
 	FindByID(id uint) (*domain.Book, error)
 	FindAll(books *[]domain.Book) error
-	Save(library *domain.Book) error
+	Save(book *domain.Book) error
 	Delete(id uint) error
 }
 

@@ -2,7 +2,6 @@ package validators
 
 import (
 	"bibliosphere_gin/domain"
-
 	"github.com/go-playground/validator/v10"
 )
 
