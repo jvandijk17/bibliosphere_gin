@@ -21,7 +21,7 @@ func (ctrl *UserController) RegisterRoutes(router *gin.Engine) {
 	{
 		user.GET("/", ctrl.GetAllUsers)
 		user.GET("/:id", ctrl.GetUserByID)
-		user.GET("/:email", ctrl.GetUserByEmail)
+		user.GET("/email/:email", ctrl.GetUserByEmail)
 		user.POST("/", ctrl.CreateOrUpdateUser)
 		user.PUT("/:id", ctrl.CreateOrUpdateUser)
 		user.DELETE("/:id", ctrl.DeleteUser)

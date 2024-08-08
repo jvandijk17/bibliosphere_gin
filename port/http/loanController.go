@@ -21,7 +21,7 @@ func (ctrl *LoanController) RegisterRoutes(router *gin.Engine) {
 	{
 		loan.GET("/", ctrl.GetAllLoans)
 		loan.GET("/:id", ctrl.GetLoanByID)
-		loan.GET("/:userId", ctrl.GetLoanByUserID)
+		loan.GET("/user/:userId", ctrl.GetLoanByUserID)
 		loan.POST("/", ctrl.CreateOrUpdateLoan)
 		loan.PUT("/:id", ctrl.CreateOrUpdateLoan)
 		loan.DELETE("/:id", ctrl.DeleteLoan)

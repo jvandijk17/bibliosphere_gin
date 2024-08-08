@@ -74,7 +74,6 @@ CREATE TABLE users (
     city VARCHAR(255) NOT NULL,
     province VARCHAR(255) NOT NULL,
     postal_code VARCHAR(10) NOT NULL,
-    registration_date DATE NOT NULL,
     birth_date DATE DEFAULT NULL,
     reputation INT NOT NULL,
     blocked TINYINT(1) NOT NULL,

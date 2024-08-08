@@ -22,9 +22,21 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 	bookService := service.NewBookService(bookRepo, bookValidator)
 	bookController := http.NewBookController(bookService)
 
+	loanRepo := repositories.NewGormLoanRepository(db)
+	loanValidator := validators.NewLoanValidator()
+	loanService := service.NewLoanService(loanRepo, loanValidator)
+	loanController := http.NewLoanController(loanService)
+
+	libraryRepo := repositories.NewGormLibraryRepository(db)
+	libraryValidator := validators.NewLibraryValidator()
+	libraryService := service.NewLibraryService(libraryRepo, libraryValidator)
+	libraryController := http.NewLibraryController(libraryService)
+
 	router := gin.Default()
 	bookController.RegisterRoutes(router)
 	userController.RegisterRoutes(router)
+	loanController.RegisterRoutes(router)
+	libraryController.RegisterRoutes(router)
 
 	return router
 }
