@@ -49,19 +49,20 @@ func hashPassword(password string) string {
 
 func createUser(libraryID uint, firstName, lastName, email, password, roles string, birthDate *time.Time) domain.User {
 	return domain.User{
-		LibraryID:  libraryID,
-		FirstName:  firstName,
-		LastName:   lastName,
-		Email:      email,
-		Password:   password,
-		Address:    gofakeit.Address().Address,
-		City:       gofakeit.City(),
-		Province:   gofakeit.State(),
-		PostalCode: gofakeit.Zip(),
-		BirthDate:  birthDate,
-		Reputation: 0,
-		Roles:      roles,
-		Blocked:    false,
+		LibraryID:        libraryID,
+		FirstName:        firstName,
+		LastName:         lastName,
+		Email:            email,
+		Password:         password,
+		Address:          gofakeit.Address().Address,
+		City:             gofakeit.City(),
+		Province:         gofakeit.State(),
+		PostalCode:       gofakeit.Zip(),
+		RegistrationDate: time.Now(),
+		BirthDate:        birthDate,
+		Reputation:       0,
+		Roles:            roles,
+		Blocked:          false,
 	}
 }
 
