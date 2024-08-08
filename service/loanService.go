@@ -9,20 +9,20 @@ import (
 
 type LoanService interface {
 	GetAllLoans() ([]domain.Loan, error)
-	GetLoanByID(id uint)(*domain.Loan, error)
-	GetLoanByUserID(id uint)(*domain.Loan, error)
+	GetLoanByID(id uint) (*domain.Loan, error)
+	GetLoanByUserID(id uint) (*domain.Loan, error)
 	CreateOrUpdateLoan(id *uint, data map[string]interface{}) (*domain.Loan, error)
 	DeleteLoan(id uint) error
 }
 
 type loanService struct {
-	repo repositories.LoanRepository
+	repo      repositories.LoanRepository
 	validator validators.LoanValidator
 }
 
 func NewLoanService(repo repositories.LoanRepository, validator validators.LoanValidator) LoanService {
 	return &loanService{
-		repo: repo,
+		repo:      repo,
 		validator: validator,
 	}
 }
@@ -31,7 +31,7 @@ func (loanService *loanService) GetAllLoans() ([]domain.Loan, error) {
 	var loans []domain.Loan
 	err := loanService.repo.FindAll(&loans)
 	if err != nil {
-		 return nil, err
+		return nil, err
 	}
 	return loans, err
 }
@@ -59,7 +59,7 @@ func (loanService *loanService) CreateOrUpdateLoan(id *uint, data map[string]int
 	if err != nil {
 		return nil, err
 	}
-	
+
 	err = loanService.validator.Validate(&loan)
 	if err != nil {
 		return nil, err

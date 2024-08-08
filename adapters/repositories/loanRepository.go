@@ -40,7 +40,7 @@ func (repo *GormLoanRepository) FindByUserID(id uint) (*domain.Loan, error) {
 	return &loan, nil
 }
 
-func (repo *GormLoanRepository) FindAll (loans *[]domain.Loan) error {
+func (repo *GormLoanRepository) FindAll(loans *[]domain.Loan) error {
 	result := repo.db.Find(loans)
 	if result.Error != nil {
 		return result.Error

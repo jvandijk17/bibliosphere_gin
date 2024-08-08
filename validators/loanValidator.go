@@ -6,7 +6,6 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-
 type LoanValidator interface {
 	Validate(loan *domain.Loan) error
 }
