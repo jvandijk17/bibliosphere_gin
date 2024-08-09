@@ -2,47 +2,40 @@ package main
 
 import (
 	"bibliosphere_gin/adapters/repositories"
-	"bibliosphere_gin/port/http"
+	"bibliosphere_gin/middleware"
+	"bibliosphere_gin/routes"
 	"bibliosphere_gin/service"
-	"bibliosphere_gin/validators"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 func setupRouter(db *gorm.DB) *gin.Engine {
-
-	userRepo := repositories.NewGormUserRepository(db)
-	userValidator := validators.NewUserValidator()
-	userService := service.NewUserService(userRepo, userValidator)
-	userController := http.NewUserController(userService)
-
-	bookRepo := repositories.NewGormBookRepository(db)
-	bookValidator := validators.NewBookValidator()
-	bookService := service.NewBookService(bookRepo, bookValidator)
-	bookController := http.NewBookController(bookService)
-
-	bookCategoryRepo := repositories.NewGormBookCategoryRepository(db)
-	bookCategoryValidator := validators.NewBookCategoryValidator()
-	bookCategoryService := service.NewBookCategoryService(bookCategoryRepo, bookCategoryValidator)
-	bookCategoryController := http.NewBookCategoryController(bookCategoryService)
-
-	loanRepo := repositories.NewGormLoanRepository(db)
-	loanValidator := validators.NewLoanValidator()
-	loanService := service.NewLoanService(loanRepo, loanValidator)
-	loanController := http.NewLoanController(loanService)
-
-	libraryRepo := repositories.NewGormLibraryRepository(db)
-	libraryValidator := validators.NewLibraryValidator()
-	libraryService := service.NewLibraryService(libraryRepo, libraryValidator)
-	libraryController := http.NewLibraryController(libraryService)
-
 	router := gin.Default()
-	bookController.RegisterRoutes(router)
-	bookCategoryController.RegisterRoutes(router)
-	userController.RegisterRoutes(router)
-	loanController.RegisterRoutes(router)
-	libraryController.RegisterRoutes(router)
+
+	setupCORS(router)
+	userRepo := repositories.NewGormUserRepository(db)
+	authService := service.NewAuthService(userRepo)
+
+	authMiddleware, err := middleware.JWTMiddleware(authService)
+	if err != nil {
+		panic("JWT Middleware initialization failed: " + err.Error())
+	}
+
+	routes.RegisterRoutes(router, db, authMiddleware)
 
 	return router
+}
+
+func setupCORS(router *gin.Engine) {
+	config := cors.Config{
+		AllowOrigins:     []string{"http://localhost:4200"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}
+
+	router.Use(cors.New(config))
 }

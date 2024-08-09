@@ -18,7 +18,6 @@ type User = domain.User
 
 var identityKey = config.AppConfig.IdentityKey
 var jwtKey []byte
-var authService service.AuthService
 
 func init() {
 	var err error
@@ -28,7 +27,7 @@ func init() {
 	}
 }
 
-func JWTMiddleware() (*jwt.GinJWTMiddleware, error) {
+func JWTMiddleware(authService *service.AuthService) (*jwt.GinJWTMiddleware, error) {
 	return jwt.New(&jwt.GinJWTMiddleware{
 		Realm:       config.AppConfig.Realm,
 		Key:         jwtKey,
